@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta name="viewport" content="initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>WebPs</title>
+  <!-- wrapper, inputs and labels  -->
+<link rel="stylesheet" type="text/css"
+      href="/media/css/dateinput/flight.css"/>
+ 
+<!-- calendar styling -->
+<link rel="stylesheet" type="text/css"
+      href="/media/css/dateinput/flight-calendar.css"/>
+	  
+	<link rel="stylesheet" href="css/calendar.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="js/pureJSCalendar.js"></script>
+  <script src="js/highcharts.js"></script>
+  <script src="js/anychart.min.js"></script>
+  <script src="js/highcharts-more.js"></script>
+<script src="js/modules/solid-gauge.js"></script>
+</head>
+<style>
+
+table, th, td {
+    border: 1px solid black;
+    border-right: 2px solid black;
+
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: center;
+}
+body{
+	background-color: white
+}
+.btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+}
+</style>
+<body >
+<h1 style="text-align: center">Presence Server Charts</h1>
+<hr style=" border-width: 2px;" >
+
+<div style="padding:1px">
+  
+    <table id = 'details_table' style="width:100%">
+<tr>
+        <th style="width:33%">
+            <p style="font-size: 16px;text-align: center;" > Server: 12.34.64.34<p>
+        </th>
+        
+        <th style="width:33%">
+            <p style="font-size: 16px;text-align: center;" > Uptime:10 Days , 3 Hours , 56 minute<p>
+        </th>
+        
+        <th style="width:33%">
+            <p style="font-size: 16px;text-align: center;" > Update Charts: each 1 minute<p>
+        </th>
+      </tr>    
+        <!-- <tr>
+            <p style="font-size: 20px;text-align: left;" > Server:<p>
+    
+        </tr>
+        <tr>
+            <p style="font-size: 20px;text-align: left;" > Server:<p>
+    
+        </tr>  -->
+    </table>
+
+
+	<hr style=" border-width: 2px;" >
+</div>
+
+<div id="para1" style="text-align: right; float:right;margin-right: 20px"></div>
+		<div id="demo" style=" float:right;"></div>
+
+	<div class="card-body" id="areaGroup" style="padding-bottom:2px" >
+                
+
+              <span align="left" class="form-check-label" style="padding-right: 4px;">
+                   One Day:
+              </span><input class="form-check-input" type="radio" name="areaZone" value="igotnone" checked="checked" onclick="show1();" >
+			  
+			  <span align="left" class="form-check-label" style="padding-right: 4px;padding-left: 20px;">
+			       Date Range:
+			  </span><input class="form-check-input" type="radio" name="areaZone" value="igottwo" onclick="show2();"   >
+			  
+		</div> <!-- card-body.// -->
+
+	
+	<br>
+	   <form id="oneDayForm" style="display:none;" >
+  <label>
+    from 
+    <input type="date" name="from" id='startDate' value="Today"/>
+  </label>
+ 
+  <label>
+    to 
+    <input type="date" name="to" id='endDate' value="After one week"/>
+    <button id="submit" class="button" onclick="showDate()">Submit</button> 
+
+  </label>
+       </form>
+	   
+	   <form id="rangeOfDaysForm">
+  <label>
+    Date: 
+    <input type="date" id="oneDate" />
+  </label>
+  <button class="button" onclick="showDate()">Submit</button> 
+
+       </form>
+
+</div>
+<hr style=" border-width: 2px" >
+
+<table style="width:100%" >
+	<!-- <tr>
+		<td id= "td1" style="width:30%" onclick="chooseChart('1')"> <canvas id="line-chart1" ></canvas> </td>
+		<td id= "td2" style="width:31%" onclick="chooseChart('2')"> <canvas id="line-chart2" ></canvas> </td>
+		<td id= "td3" style="width:32%" onclick="chooseChart('3')"> <canvas id="line-chart3" ></canvas> </td>
+	</tr>
+	<tr>
+		<td id= "td4" style="width:30%" onclick="chooseChart('4')"> <canvas id="line-chart4" ></canvas> </td>
+		<td id= "td5" style="width:31%" onclick="chooseChart('5')"> <canvas id="line-chart5" ></canvas> </td>
+		<td id= "td6" style="width:32%" onclick="chooseChart('6')"> <canvas id="line-chart6" ></canvas> </td>
+	</tr> -->
+	<tr>
+		<td id= "td1" style="width:50%" onclick="chooseChart('1')"> <canvas id="line-chart1" ></canvas> </td>
+		<td id= "td2" style="width:50%" onclick="chooseChart('2')"> <canvas id="line-chart2" ></canvas> </td>
+	</tr>
+	<tr>
+		<td id= "td3" style="width:50%" onclick="chooseChart('3')"> <canvas id="line-chart3" ></canvas> </td>
+		<td id= "td4" style="width:50%" onclick="chooseChart('4')"> <canvas id="line-chart4" ></canvas> </td>
+	</tr> 
+</table>
+<table style="width:100%" >
+<tr>
+  <td id= "pie1" style="width:33%;border-right-style: none;">
+     <canvas id="RAMchart" style="width:50%;"></canvas> 
+  </td>
+  <td id= "pie1" style="width:33%;border-left-style: none;">
+      <canvas id="RAMswap" style="width:50%;"></canvas>
+   </td>
+
+
+<td id= "pie3" style="width:33%;height: 50px;"><p></p>
+    <div id="container" style="height: 250px;">
+  </div> </td>
+</tr> 
+</table>
+<table style="width:100%">
+
+    <tr>
+        <div id="root_system" style="height: 300px; width: 100%;"></div>
+
+      </tr> 
+</table>
+<script src='js/jquery.min.js'></script>
+<script src='js/Chart.min.js'></script>
+<script src="js/index.js"></script>
+<script>
+
+ function showDate(){
+ 
+  if(document.getElementById('oneDayForm').style.display == 'none'){
+      localStorage.setItem("oneDate", document.getElementById('oneDate').value);
+      localStorage.setItem("isSingleDay", true);
+  }
+  else{
+      localStorage.setItem("startDate", document.getElementById('startDate').value);
+      localStorage.setItem("endDate", document.getElementById('endDate').value);
+      localStorage.setItem("isSingleDay", false);
+  }
+}
+
+
+  document.getElementById("para1").innerHTML = formatAMPM();
+  
+  function formatAMPM() {
+  var d = new Date(),
+      minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
+      hours = d.getHours().toString().length == 1 ? '0'+d.getHours() : d.getHours(),
+      ampm = d.getHours() >= 12 ? 'pm' : 'am',
+      months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  return 'Log in Time: '+days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' - '+hours+':'+minutes+ampm;
+  }
+  function aaa() {
+    alert(document.getElementById("myTime").value) ;
+}
+  function show1(){
+    document.getElementById('oneDayForm').style.display ='none';
+    document.getElementById('rangeOfDaysForm').style.display ='block';
+  
+  }
+  function show2(){
+    document.getElementById('oneDayForm').style.display = 'block';
+    document.getElementById('rangeOfDaysForm').style.display = 'none';
+    document.getElementById('submit').style.marginRight='30px'
+  }
+  
+   $(":date").dateinput({ trigger: true, format: 'dd mmmm yyyy', min: -1 })
+   // use the same callback for two different events. possible with bind
+  $(":date").bind("onShow onHide", function()  {
+    $(this).parent().toggleClass("active");
+  });
+  
+  function myFunction(page){
+  window.location=page;
+  }
+  </script>
+
+  <br>
+	
+  </body>
+  
+  </html>
+  

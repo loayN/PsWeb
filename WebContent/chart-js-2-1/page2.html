@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>WebPs</title>
+	<link rel="stylesheet" href="css/calendar.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="js/pureJSCalendar.js"></script>
+</head>
+<style>
+
+
+body{
+	background-color: white
+}
+.btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+}
+
+table {
+    width: auto;
+    margin: 0 auto !important;
+	border: 1px solid black;
+    border-collapse: collapse;
+}
+.wrapper {
+    text-align: center;
+	padding:10px;
+	padding-bottom:30px;
+	
+}
+
+.unitsButton {
+	display:inline-block;
+    width:80px;
+	height:25px;
+	background-color: #989898; 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.unitsButton:hover{
+	background-color: white;
+	color: black; 
+    border: 2px solid #989898;
+}
+</style>
+<body >
+<h1 style="text-align: center">Presence Server Charts</h1>
+<hr style=" border-width: 2px;" >
+
+
+<div style="padding:1px">
+	
+        <p style="font-size: 20px;text-align: center;" > Server:<p>
+        <hr style=" border-width: 2px;" >
+    </div>
+    
+    <div id="para1" style="text-align: right; float:right;"></div>
+            <div id="demo" style=" float:right;"></div>
+    
+        <div class="card-body" id="areaGroup" style="padding-bottom:2px" >
+                    
+    
+                  <span align="left" class="form-check-label" style="padding-right: 4px;">
+                       One Day:
+                  </span><input class="form-check-input" type="radio" name="areaZone" value="igotnone" checked="checked" onclick="show1();" >
+                  
+                  <span align="left" class="form-check-label" style="padding-right: 4px;padding-left: 20px;">
+                       Date Range:
+                  </span><input class="form-check-input" type="radio" name="areaZone" value="igottwo" onclick="show2();"   >
+                  
+            </div> <!-- card-body.// -->
+    
+        
+        <br>
+           <form id="oneDayForm" style="display:none;" >
+      <label>
+        From: 
+        <input type="date" name="from" id='startDate' value="Today"/>
+      </label>
+     
+      <label style="padding-left:20px">
+        To: 
+        <input type="date" name="to" id='endDate' value="After one week"/>
+        <button id="submit" class="button" onclick="showDate()">Submit</button> 
+    
+      </label>
+           </form>
+           
+           <form id="rangeOfDaysForm">
+      <label>
+        Date: 
+        <input type="date" id="oneDate" />
+      </label>
+      <label style="padding-left:20px" id='timeLable'>
+        Time : <input type="time" id="myTime"/>
+      </label>
+      <button class="button" onclick="showDate()">Submit</button> 
+    
+           </form>
+    
+    </div>
+
+<br>
+  
+
+<hr style=" border-width: 2px;text-align: center;" >
+
+<div class="wrapper" id='time_units' >
+	<button class="unitsButton" onclick="displayHourData()">Hour</button>
+	<button class="unitsButton" onclick="displayMinutesData()">Minute</button>
+	<button class="unitsButton" onclick="displaySecondsData()">Second</button>   
+</div>
+<table style="width:80%">
+	<tr>
+		<td id="td1" style="width:50%"> <canvas id="line-chart1" ></canvas> </td>
+	</tr>
+	
+</table>
+
+<script src='js/jquery.min.js'></script>
+<script src='js/Chart.min.js'></script>
+ <script>
+document.getElementById("para1").innerHTML = formatAMPM();
+
+function formatAMPM() {
+var d = new Date(),
+    minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
+    hours = d.getHours().toString().length == 1 ? '0'+d.getHours() : d.getHours(),
+    ampm = d.getHours() >= 12 ? 'pm' : 'am',
+    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+return 'Log in Time: '+days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' - '+hours+':'+minutes+ampm;
+}
+
+
+function setaData() {
+// alert(1)
+}
+if(localStorage.getItem("isSingleDay")=='true'){
+    document.getElementById('time_units').hidden=false;
+    document.getElementById('timeLable').hidden=false;
+}
+else{
+    document.getElementById('time_units').hidden=true;
+    document.getElementById('timeLable').hidden=true;
+       
+}
+
+// alert(localStorage.getItem("isSingleDay"))
+
+function showDate(){
+ 
+ if(document.getElementById('oneDayForm').style.display == 'none'){
+     localStorage.setItem("oneDate", document.getElementById('oneDate').value);
+     localStorage.setItem("isSingleDay", true);
+ }
+ else{
+     localStorage.setItem("startDate", document.getElementById('startDate').value);
+     localStorage.setItem("endDate", document.getElementById('endDate').value);
+     localStorage.setItem("isSingleDay", false);
+ }
+}
+
+
+ document.getElementById("para1").innerHTML = formatAMPM();
+ 
+ function formatAMPM() {
+ var d = new Date(),
+     minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
+     hours = d.getHours().toString().length == 1 ? '0'+d.getHours() : d.getHours(),
+     ampm = d.getHours() >= 12 ? 'pm' : 'am',
+     months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+     days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+ return 'Log in Time: '+days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' - '+hours+':'+minutes+ampm;
+ }
+ 
+ function show1(){
+   document.getElementById('oneDayForm').style.display ='none';
+   document.getElementById('rangeOfDaysForm').style.display ='block';
+ 
+ }
+ function show2(){
+   document.getElementById('oneDayForm').style.display = 'block';
+   document.getElementById('rangeOfDaysForm').style.display = 'none';
+   document.getElementById('submit').style.marginRight='30px'
+ }
+ 
+  $(":date").dateinput({ trigger: true, format: 'dd mmmm yyyy', min: -1 })
+  // use the same callback for two different events. possible with bind
+ $(":date").bind("onShow onHide", function()  {
+   $(this).parent().toggleClass("active");
+ });
+ 
+</script>
+
+<script src="js/index.js"></script>
+
+
+</body>
+
+</html>
